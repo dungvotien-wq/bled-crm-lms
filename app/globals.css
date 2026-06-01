@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =====================================================================
+   DESIGN TOKENS — đổi màu brand tại đây là toàn hệ thống cập nhật.
+   (Tạm dùng tông Salesforce vì chưa có hex brand Bao Linh.)
+   ===================================================================== */
+:root {
+  --bg-app: #f3f3f3;        /* nền app xám nhạt */
+  --surface: #ffffff;       /* nền card */
+  --surface-2: #fafafb;     /* nền phụ */
+  --border: #e2e5e9;        /* viền */
+  --text: #181818;          /* chữ chính */
+  --text-muted: #5c5c5c;    /* chữ phụ */
+  --text-subtle: #8a8a8a;   /* caption */
+
+  --primary: #0176d3;       /* xanh primary (Salesforce) */
+  --primary-hover: #015aa8;
+  --primary-soft: #eaf5fe;  /* nền nhấn nhẹ cho active */
+
+  --header: #032d60;        /* navy header */
+  --header-2: #0a3a73;
+
+  --accent: #06a59a;        /* teal nhấn */
+  --success: #2e844a;
+  --warning: #fe9339;
+  --danger: #ea001e;
+}
+
+html, body { height: 100%; }
+body {
+  background: var(--bg-app);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* Thang typography nhất quán */
+.h-page { font-size: 20px; font-weight: 700; color: var(--text); }
+.h-section { font-size: 15px; font-weight: 600; color: var(--text); }
+.t-label { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--text-subtle); }
+.t-muted { color: var(--text-muted); }
+.t-caption { font-size: 12px; color: var(--text-subtle); }
+
+/* Card dùng lại */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,.06); }

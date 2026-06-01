@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "PowerShell(Get-Command node -ErrorAction SilentlyContinue; Get-ChildItem \"C:\\\\Program Files\\\\nodejs\" -ErrorAction SilentlyContinue | Select-Object -First 3; Get-ChildItem \"$env:APPDATA\\\\npm\" -ErrorAction SilentlyContinue | Select-Object -First 3)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\npm.cmd\" --version)",
+      "PowerShell($env:Path = \"C:\\\\Program Files\\\\nodejs;\" + $env:Path; Set-Location \"C:\\\\Users\\\\dungv\\\\OneDrive - Bao Linh Education\\\\Claude Cowork\\\\Projects\\\\Xây dựng CRM tích LMS\\\\bled-crm-lms\"; & \"C:\\\\Program Files\\\\nodejs\\\\node.exe\" \".\\\\node_modules\\\\typescript\\\\bin\\\\tsc\" --noEmit 2>&1 | Select-Object -First 30)",
+      "PowerShell($ok=$false; for \\($i=0; $i -lt 20; $i++\\) { try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/login\" -UseBasicParsing -TimeoutSec 5; if \\($r.StatusCode -eq 200\\) { \"STATUS 200 - server OK\"; $ok=$true; break } } catch { Start-Sleep -Seconds 2 } }; if \\(-not $ok\\) { \"Chua phan hoi sau 40s\" })",
+      "PowerShell($ok=$false; for \\($i=0; $i -lt 25; $i++\\) { try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/families\" -UseBasicParsing -TimeoutSec 5 -MaximumRedirection 0 -ErrorAction Stop; \"STATUS $\\($r.StatusCode\\)\"; $ok=$true; break } catch { $code = $_.Exception.Response.StatusCode.value__; if \\($code\\) { \"REDIRECT/STATUS $code - server OK \\(redirect ve /login do chua dang nhap\\)\"; $ok=$true; break } else { Start-Sleep -Seconds 2 } } }; if \\(-not $ok\\) { \"Chua phan hoi\" })"
+    ]
+  }
+}
