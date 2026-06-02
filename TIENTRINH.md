@@ -93,7 +93,7 @@
 
 ## LƯU Ý quan trọng cho bước sau
 - RLS đã BẬT. Test tính năng mới với cả CEO và role chi nhánh.
-- Thứ tự migration: `0001`→`0002`→`0003`→`0005`→`0006`→`0007`→`0008`→`0009`.
+- Thứ tự migration: `0001`→`0002`→`0003`→`0005`→`0006`→`0007`→`0008`→`0009`→`0010`.
 - Quy tắc: CHẠY MIGRATION TRƯỚC rồi mới F5 (memory migration-then-code). "0 lead/trống" = quên migration, KHÔNG mất dữ liệu.
 - Lỗi "Cannot find module './xxx.js'" = cache .next hỏng do OneDrive → xóa .next, chạy lại (memory next-cache-onedrive).
 - TODO sau: convert lead → family+student; affiliate referral_rewards (voucher học phí).
@@ -113,6 +113,18 @@
 - **Thư viện**: qrcode (QR), html-to-image (PNG nét cao, tiếng Việt rõ), jspdf (PDF từ ảnh — tránh lỗi font)
 - Trang: `/finance/[id]` (xem/in chứng từ); link từ bảng /finance
 
+## Đã làm — Bước 3.5: Lớp & Lịch học (P1)
+- [x] Migration `0010_classes_schedule.sql`: bảng `class_schedules` (lịch lặp tuần), `class_teachers` (GV phụ cấp lớp), `session_teachers` (nhiều GV/buổi), `holidays` (ngày nghỉ); thêm cột `teaching_sessions.makeup_of`; RLS theo branch.
+- [x] `/classes`: danh sách + lọc (chi nhánh/chương trình/trạng thái) + tìm; cột sĩ số (enrollments active) + số buổi.
+- [x] Tạo/sửa lớp: code/name/program/GV chính/GV phụ (nhiều)/ngày/trạng thái; CEO chọn chi nhánh.
+- [x] Lịch lặp + nút "Sinh buổi học": sinh `teaching_sessions` theo mẫu, **tự bỏ ngày trong holidays**, không tạo trùng; gán GV mặc định (chính+phụ) vào `session_teachers`.
+- [x] Buổi lẻ / dời / hủy (status cancelled, không xóa) / học bù (`makeup_of`).
+- [x] Gán GV theo từng buổi (1 hoặc nhiều, có vai trò) → nền cho 3.7 tính giờ/lương theo GV.
+- [x] Ghi danh: thêm/bớt HV, đổi trạng thái; chặn trùng (unique class_id+student_id).
+- [x] Dữ liệu mẫu: nút "Tạo lớp mẫu" (IELTS T2-4-6 18:00–20:00, tự tạo 2 GV VN+GVNN, 1 ngày nghỉ mẫu, sinh buổi bỏ ngày nghỉ, ghi danh HV).
+- Quyền quản lý lớp: ceo/branch_manager/cm; teacher xem (RLS branch).
+- **// TODO 3.6 (điểm danh)**: ghi trong `app/classes/actions.ts`. Mỗi `teaching_session` lấy enrollments active của lớp để render danh sách điểm danh; ghi `attendance_student`. UI cho CẢ GV lẫn CM/admin, chạy tốt mobile+desktop.
+
 ## ✅ GIAI ĐOẠN P0 HOÀN TẤT (3.1 → 3.4)
 Auth+RLS · Lead Kanban · Hồ sơ Gia đình 360 · Học phí & Công nợ + Bảng giá.
 Tiếp theo (P1): 3.5–3.6 Lớp học/Lịch dạy/Điểm danh · 3.7 Chấm công GV · 3.8 TQS · 3.9 Báo cáo tháng · 3.10 Teams · 3.11 Dashboard.
@@ -125,7 +137,9 @@ Tiếp theo (P1): 3.5–3.6 Lớp học/Lịch dạy/Điểm danh · 3.7 Chấm 
 - [x] **3.2** Quản lý Lead (Kanban) — xong
 - [x] **3.3** Hồ sơ Phụ huynh & Học viên 360 — xong
 - [x] **3.4** Học phí & Công nợ + Bảng giá — xong (KẾT THÚC P0)
-- [ ] **3.5–3.9** LMS + Chấm công + TQS + Báo cáo tháng
+- [x] **3.5** Lớp & Lịch học — xong
+- [ ] **3.6** Điểm danh học viên (TODO ghi trong actions.ts)
+- [ ] **3.7–3.9** Chấm công GV + TQS + Báo cáo tháng
 - [ ] **3.10–3.11** Tích hợp Teams + Dashboard
 
 ## Deploy — GitHub + Vercel (02/06/2026) ✅ HOÀN THÀNH
