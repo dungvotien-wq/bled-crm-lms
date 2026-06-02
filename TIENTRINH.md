@@ -128,13 +128,16 @@ Tiếp theo (P1): 3.5–3.6 Lớp học/Lịch dạy/Điểm danh · 3.7 Chấm 
 - [ ] **3.5–3.9** LMS + Chấm công + TQS + Báo cáo tháng
 - [ ] **3.10–3.11** Tích hợp Teams + Dashboard
 
-## Deploy — GitHub + Vercel (01/06/2026)
+## Deploy — GitHub + Vercel (02/06/2026) ✅ HOÀN THÀNH
 - [x] `npm run build` local → thành công (9 route, 0 lỗi)
 - [x] `.gitignore` loại trừ `.env.local`, `node_modules`, `.next`
-- [ ] **Chờ Bob**: tạo GitHub repo private `bled-crm-lms` → push lần đầu
-- [ ] **Chờ Bob**: khai báo biến môi trường trên Vercel → deploy
-- [ ] **Chờ Bob**: thêm URL Vercel vào Supabase Auth + Azure Redirect URI
-- **URL tạm Vercel**: chưa có — sẽ có dạng `https://bled-crm-lms-xxx.vercel.app`
+- [x] GitHub repo public: `github.com/dungvotien-wq/bled-crm-lms`
+- [x] Vercel deploy thành công — Status: Ready
+- [x] **URL production**: `https://bled-crm-lms.vercel.app`
+- [x] Supabase Auth → Site URL + Redirect URL cập nhật URL Vercel
+- [x] Azure → Redirect URI: `https://bled-crm-lms.vercel.app/auth/callback` + `https://qsbjpziwvlorycvbufxm.supabase.co/auth/v1/callback`
+- [x] Đăng nhập M365 trên Vercel URL hoạt động ✅
+- **Ghi chú kỹ thuật**: `.npmrc` có `legacy-peer-deps=true` (conflict `@supabase/ssr`); git author phải dùng `dung.votien@gmail.com` để Vercel Hobby không block
 - **Domain thật (DNS — CHƯA LÀM)**: sau khi có DNS, thêm `crm.bled.edu.vn` vào Vercel → Settings → Domains, trỏ CNAME record về `cname.vercel-dns.com`. Cập nhật Supabase Site URL + Azure Redirect URI sang domain mới.
 
 ## Ghi chú kỹ thuật
