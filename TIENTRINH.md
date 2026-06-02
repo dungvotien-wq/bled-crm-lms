@@ -93,7 +93,7 @@
 
 ## LƯU Ý quan trọng cho bước sau
 - RLS đã BẬT. Test tính năng mới với cả CEO và role chi nhánh.
-- Thứ tự migration: `0001`→`0002`→`0003`→`0005`→`0006`→`0007`→`0008`→`0009`→`0010`.
+- Thứ tự migration: `0001`→`0002`→`0003`→`0005`→`0006`→`0007`→`0008`→`0009`→`0010`→`0011`.
 - Quy tắc: CHẠY MIGRATION TRƯỚC rồi mới F5 (memory migration-then-code). "0 lead/trống" = quên migration, KHÔNG mất dữ liệu.
 - Lỗi "Cannot find module './xxx.js'" = cache .next hỏng do OneDrive → xóa .next, chạy lại (memory next-cache-onedrive).
 - TODO sau: convert lead → family+student; affiliate referral_rewards (voucher học phí).
@@ -125,6 +125,17 @@
 - Quyền quản lý lớp: ceo/branch_manager/cm; teacher xem (RLS branch).
 - **// TODO 3.6 (điểm danh)**: ghi trong `app/classes/actions.ts`. Mỗi `teaching_session` lấy enrollments active của lớp để render danh sách điểm danh; ghi `attendance_student`. UI cho CẢ GV lẫn CM/admin, chạy tốt mobile+desktop.
 
+## Đã làm — Bước 3.6: Điểm danh HV + Check-in GV (nhánh feat/attendance)
+- [x] Migration `0011_attendance.sql`: `teaching_sessions` +attendance_locked/locked_at/by/reopened_at/by; `attendance_student` +taken_by/taken_at/parent_notify_flag/notify_status.
+- [x] `/attendance`: chọn ngày (mặc định hôm nay) + dropdown buổi; GV chỉ thấy buổi mình được gán (session_teachers), CM/QLCN theo branch, CEO toàn hệ thống.
+- [x] Điểm danh từng HV (4 trạng thái present/late/excused/absent), roster để TRỐNG, KHÔNG "tất cả có mặt"; ghi chú bắt buộc khi excused; prefill nếu đã điểm danh; upsert 1 dòng/HV/buổi + taken_by/taken_at; badge "đã điểm danh".
+- [x] Check-in/out GV (method=app, không GPS); GV tự check-in, CM/admin nhập hộ.
+- [x] Chốt buổi (status=done, khóa → chỉ đọc); Mở lại chỉ CEO+QLCN (reopened_at/by).
+- [x] Cờ báo vắng: absent → parent_notify_flag + notify_status='pending'; trang `/attendance/absences` + nút "Đánh dấu đã xử lý" (→ 'sent'). Gửi Zalo = P2 (TODO).
+- [x] Responsive mobile + desktop; ngày dd/mm/yyyy, giờ HH:mm.
+- [x] Dữ liệu mẫu: nút "Tạo dữ liệu mẫu" — TỰ tạo lớp+ghi danh nếu chưa có; 1 buổi đủ 4 trạng thái (có HV absent gắn cờ) + 2 GV check-in + 1 buổi đã chốt/khóa.
+- **TODO** (ghi trong `app/attendance/actions.ts`): 3.7 payroll từ checkin · 3.8 TQS retention từ attendance · P2 gửi báo vắng Zalo ZNS · lọc buổi theo lớp.
+
 ## ✅ GIAI ĐOẠN P0 HOÀN TẤT (3.1 → 3.4)
 Auth+RLS · Lead Kanban · Hồ sơ Gia đình 360 · Học phí & Công nợ + Bảng giá.
 Tiếp theo (P1): 3.5–3.6 Lớp học/Lịch dạy/Điểm danh · 3.7 Chấm công GV · 3.8 TQS · 3.9 Báo cáo tháng · 3.10 Teams · 3.11 Dashboard.
@@ -138,7 +149,7 @@ Tiếp theo (P1): 3.5–3.6 Lớp học/Lịch dạy/Điểm danh · 3.7 Chấm 
 - [x] **3.3** Hồ sơ Phụ huynh & Học viên 360 — xong
 - [x] **3.4** Học phí & Công nợ + Bảng giá — xong (KẾT THÚC P0)
 - [x] **3.5** Lớp & Lịch học — xong
-- [ ] **3.6** Điểm danh học viên (TODO ghi trong actions.ts)
+- [x] **3.6** Điểm danh HV + Check-in GV — xong (nhánh feat/attendance)
 - [ ] **3.7–3.9** Chấm công GV + TQS + Báo cáo tháng
 - [ ] **3.10–3.11** Tích hợp Teams + Dashboard
 
