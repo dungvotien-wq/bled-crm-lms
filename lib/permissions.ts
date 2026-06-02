@@ -111,6 +111,19 @@ export function canManualPriceOrHighDiscount(role: UserRole): boolean {
   return role === "ceo" || role === "accountant";
 }
 
+// Điểm danh / check-in: GV (buổi mình), CM, QLCN, CEO. (GV chặn thêm app-level)
+export function canTakeAttendance(role: UserRole): boolean {
+  return role === "ceo" || role === "branch_manager" || role === "cm" || role === "teacher";
+}
+// Quản lý theo chi nhánh: chốt buổi, xử lý cờ báo vắng
+export function canManageBranchOps(role: UserRole): boolean {
+  return role === "ceo" || role === "branch_manager" || role === "cm";
+}
+// Mở lại buổi đã khóa: chỉ CEO + Quản lý chi nhánh
+export function canReopenSession(role: UserRole): boolean {
+  return role === "ceo" || role === "branch_manager";
+}
+
 export function getMenuForRole(role: UserRole): MenuItem[] {
   const allowed = new Set(MENU_BY_ROLE[role]);
   return MENU_ALL.filter((item) => allowed.has(item.href));
